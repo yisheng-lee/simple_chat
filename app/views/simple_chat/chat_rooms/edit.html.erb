@@ -1,0 +1,12 @@
+<% content_for :title, "Editing chat room" %>
+
+<h1>Editing chat room</h1>
+
+<%= render "form", chat_room: @chat_room %>
+
+<br>
+
+<div>
+  <%= link_to "Show this chat room", @chat_room %> |
+  <%= link_to "Back to chat rooms", chat_rooms_path %>
+</div>

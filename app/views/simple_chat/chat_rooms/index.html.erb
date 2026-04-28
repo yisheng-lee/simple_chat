@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Chat rooms" %>
+
+<h1>Chat rooms</h1>
+
+<div id="chat_rooms">
+  <% @chat_rooms.each do |chat_room| %>
+    <%= render chat_room %>
+    <p>
+      <%= link_to "Show this chat room", chat_room %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New chat room", new_chat_room_path %>
