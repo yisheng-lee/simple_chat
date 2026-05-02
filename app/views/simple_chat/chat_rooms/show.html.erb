@@ -3,6 +3,7 @@
 <%= render @chat_room %>
 
 <div>
+  <%= link_to "View Messages", messages_path(chat_room_id: @chat_room.id) %> |
   <%= link_to "Edit this chat room", edit_chat_room_path(@chat_room) %> |
   <%= link_to "Back to chat rooms", chat_rooms_path %>
 

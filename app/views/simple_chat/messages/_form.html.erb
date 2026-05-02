@@ -13,7 +13,12 @@
 
   <div>
     <%= form.label :chat_room_id, style: "display: block" %>
-    <%= form.text_field :chat_room_id %>
+    <%= form.collection_select :chat_room_id, SimpleChat::ChatRoom.all, :id, :title, prompt: true %>
+  </div>
+
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.number_field :user_id %>
   </div>
 
   <div>

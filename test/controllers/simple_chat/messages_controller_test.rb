@@ -5,22 +5,24 @@ module SimpleChat
     include Engine.routes.url_helpers
 
     setup do
+      @chat_room = simple_chat_chat_rooms(:one)
       @message = simple_chat_messages(:one)
     end
 
     test "should get index" do
-      get messages_url
+      get messages_url(chat_room_id: @chat_room.id)
       assert_response :success
     end
 
     test "should get new" do
-      get new_message_url
+      get new_message_url(chat_room_id: @chat_room.id)
       assert_response :success
     end
 
     test "should create message" do
+      user = User.first
       assert_difference("Message.count") do
-        post messages_url, params: { message: { chat_room_id: @message.chat_room_id, content: @message.content } }
+        post messages_url, params: { message: { content: @message.content, user_id: user.id, chat_room_id: @chat_room.id } }
       end
 
       assert_redirected_to message_url(Message.last)
@@ -37,7 +39,8 @@ module SimpleChat
     end
 
     test "should update message" do
-      patch message_url(@message), params: { message: { chat_room_id: @message.chat_room_id, content: @message.content } }
+      user = User.first
+      patch message_url(@message), params: { message: { content: @message.content, user_id: user.id } }
       assert_redirected_to message_url(@message)
     end
 
@@ -46,7 +49,7 @@ module SimpleChat
         delete message_url(@message)
       end
 
-      assert_redirected_to messages_url
+      assert_redirected_to messages_url(chat_room_id: @chat_room.id)
     end
   end
 end

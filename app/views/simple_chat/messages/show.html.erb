@@ -4,7 +4,7 @@
 
 <div>
   <%= link_to "Edit this message", edit_message_path(@message) %> |
-  <%= link_to "Back to messages", messages_path %>
+  <%= link_to "Back to messages", messages_path(chat_room_id: @chat_room&.id) %>
 
   <%= button_to "Destroy this message", @message, method: :delete %>
 </div>

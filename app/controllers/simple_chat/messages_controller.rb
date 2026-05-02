@@ -4,7 +4,12 @@ module SimpleChat
 
     # GET /messages
     def index
-      @messages = Message.all
+      if params[:chat_room_id]
+        @chat_room = ChatRoom.find(params[:chat_room_id])
+        @messages = @chat_room.messages
+      else
+        @messages = Message.all
+      end
     end
 
     # GET /messages/1
@@ -13,7 +18,8 @@ module SimpleChat
 
     # GET /messages/new
     def new
-      @message = Message.new
+      @message = Message.new(chat_room_id: params[:chat_room_id])
+      @chat_room = @message.chat_room
     end
 
     # GET /messages/1/edit
@@ -23,6 +29,7 @@ module SimpleChat
     # POST /messages
     def create
       @message = Message.new(message_params)
+      @chat_room = @message.chat_room
 
       if @message.save
         redirect_to @message, notice: "Message was successfully created."
@@ -42,19 +49,20 @@ module SimpleChat
 
     # DELETE /messages/1
     def destroy
+      chat_room = @message.chat_room
       @message.destroy!
-      redirect_to messages_path, notice: "Message was successfully destroyed.", status: :see_other
+      redirect_to messages_path(chat_room_id: chat_room&.id), notice: "Message was successfully destroyed.", status: :see_other
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
       def set_message
-        @message = Message.find(params.expect(:id))
+        @message = Message.find(params[:id])
+        @chat_room = @message.chat_room
       end
 
       # Only allow a list of trusted parameters through.
       def message_params
-        params.expect(message: [ :chat_room_id, :content, :user_id ])
+        params.expect(message: [ :content, :user_id, :chat_room_id ])
       end
   end
 end

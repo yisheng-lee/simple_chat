@@ -20,7 +20,7 @@ module SimpleChat
 
     test "should create chat_room" do
       assert_difference("ChatRoom.count") do
-        post chat_rooms_url, params: { chat_room: { title: @chat_room.title } }
+        post chat_rooms_url, params: { chat_room: { title: "New Unique Title" } }
       end
 
       assert_redirected_to chat_room_url(ChatRoom.last)
@@ -37,7 +37,7 @@ module SimpleChat
     end
 
     test "should update chat_room" do
-      patch chat_room_url(@chat_room), params: { chat_room: { title: @chat_room.title } }
+      patch chat_room_url(@chat_room), params: { chat_room: { title: "Updated Title" } }
       assert_redirected_to chat_room_url(@chat_room)
     end
 
