@@ -2,8 +2,21 @@
 
 <%= render @chat_room %>
 
+<div id="messages">
+  <h3>Messages</h3>
+  <%= render @messages %>
+</div>
+
+<hr>
+
+<div id="new-message">
+  <h3>New Message</h3>
+  <%= render "simple_chat/messages/form", message: @message %>
+</div>
+
+<hr>
+
 <div>
-  <%= link_to "View Messages", messages_path(chat_room_id: @chat_room.id) %> |
   <%= link_to "Edit this chat room", edit_chat_room_path(@chat_room) %> |
   <%= link_to "Back to chat rooms", chat_rooms_path %>
 

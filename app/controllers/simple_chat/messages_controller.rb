@@ -32,7 +32,7 @@ module SimpleChat
       @chat_room = @message.chat_room
 
       if @message.save
-        redirect_to @message, notice: "Message was successfully created."
+        redirect_to @chat_room || @message, notice: "Message was successfully created."
       else
         render :new, status: :unprocessable_content
       end

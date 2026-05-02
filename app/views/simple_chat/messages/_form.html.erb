@@ -11,10 +11,14 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :chat_room_id, style: "display: block" %>
-    <%= form.collection_select :chat_room_id, SimpleChat::ChatRoom.all, :id, :title, prompt: true %>
-  </div>
+  <% if message.chat_room_id.nil? %>
+    <div>
+      <%= form.label :chat_room_id, style: "display: block" %>
+      <%= form.collection_select :chat_room_id, SimpleChat::ChatRoom.all, :id, :title, prompt: true %>
+    </div>
+  <% else %>
+    <%= form.hidden_field :chat_room_id %>
+  <% end %>
 
   <div>
     <%= form.label :user_id, style: "display: block" %>

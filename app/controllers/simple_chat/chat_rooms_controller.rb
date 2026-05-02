@@ -9,6 +9,8 @@ module SimpleChat
 
     # GET /chat_rooms/1
     def show
+      @messages = @chat_room.messages
+      @message = @chat_room.messages.build
     end
 
     # GET /chat_rooms/new

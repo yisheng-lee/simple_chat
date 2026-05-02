@@ -25,7 +25,7 @@ module SimpleChat
         post messages_url, params: { message: { content: @message.content, user_id: user.id, chat_room_id: @chat_room.id } }
       end
 
-      assert_redirected_to message_url(Message.last)
+      assert_redirected_to chat_room_url(@chat_room)
     end
 
     test "should show message" do
