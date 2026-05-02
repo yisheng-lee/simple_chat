@@ -8,7 +8,11 @@ module SimpleChat
           # Initialize SimpleChat
           SimpleChat.configure do |config|
             # Set the user model that will be used for chat members and messages
-            config.chat_user_model = 'User'
+            # config.chat_user_model = 'User'
+
+            # Set the method to get the current user in the controller
+            # Defaults to :current_user (standard for Devise)
+            # config.current_user_method = :current_user
           end
         RUBY
       end

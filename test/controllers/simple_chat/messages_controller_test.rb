@@ -20,12 +20,12 @@ module SimpleChat
     end
 
     test "should create message" do
-      user = User.first
       assert_difference("Message.count") do
-        post messages_url, params: { message: { content: @message.content, user_id: user.id, chat_room_id: @chat_room.id } }
+        post messages_url, params: { message: { content: @message.content, chat_room_id: @chat_room.id } }
       end
 
       assert_redirected_to chat_room_url(@chat_room)
+      assert_equal User.first.id, Message.last.user_id
     end
 
     test "should show message" do
@@ -39,8 +39,7 @@ module SimpleChat
     end
 
     test "should update message" do
-      user = User.first
-      patch message_url(@message), params: { message: { content: @message.content, user_id: user.id } }
+      patch message_url(@message), params: { message: { content: @message.content } }
       assert_redirected_to message_url(@message)
     end
 

@@ -32,7 +32,18 @@ Run the install generator to create the configuration file:
 rails generate simple_chat:install
 ```
 
-This will create `config/initializers/simple_chat.rb`. You can configure your user model there (defaults to `User`).
+This will create `config/initializers/simple_chat.rb`. You can configure your user model and the method to fetch the current user there.
+
+```ruby
+SimpleChat.configure do |config|
+  # Set the user model (defaults to 'User')
+  config.chat_user_model = 'User'
+
+  # Set the method to get the current user in the controller (defaults to :current_user)
+  # This is compatible with Devise.
+  config.current_user_method = :current_user
+end
+```
 
 ### 2. Run migrations
 

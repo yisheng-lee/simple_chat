@@ -29,6 +29,7 @@ module SimpleChat
     # POST /messages
     def create
       @message = Message.new(message_params)
+      @message.user = simple_chat_current_user
       @chat_room = @message.chat_room
 
       if @message.save
@@ -62,7 +63,7 @@ module SimpleChat
 
       # Only allow a list of trusted parameters through.
       def message_params
-        params.expect(message: [ :content, :user_id, :chat_room_id ])
+        params.expect(message: [ :content, :chat_room_id ])
       end
   end
 end
