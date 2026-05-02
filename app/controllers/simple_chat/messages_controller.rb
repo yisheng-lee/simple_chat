@@ -54,7 +54,7 @@ module SimpleChat
 
       # Only allow a list of trusted parameters through.
       def message_params
-        params.expect(message: [ :chat_room_id, :content ])
+        params.expect(message: [ :chat_room_id, :content, :user_id ])
       end
   end
 end

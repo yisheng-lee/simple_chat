@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_06_081003) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_02_025421) do
   create_table "simple_chat_chat_members", force: :cascade do |t|
     t.integer "chat_room_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["chat_room_id"], name: "index_simple_chat_chat_members_on_chat_room_id"
+    t.index ["user_id"], name: "index_simple_chat_chat_members_on_user_id"
   end
 
   create_table "simple_chat_chat_rooms", force: :cascade do |t|
@@ -29,9 +31,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_081003) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["chat_room_id"], name: "index_simple_chat_messages_on_chat_room_id"
+    t.index ["user_id"], name: "index_simple_chat_messages_on_user_id"
   end
 
-  add_foreign_key "simple_chat_chat_members", "chat_rooms"
-  add_foreign_key "simple_chat_messages", "chat_rooms"
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "simple_chat_chat_members", "simple_chat_chat_rooms", column: "chat_room_id"
+  add_foreign_key "simple_chat_messages", "simple_chat_chat_rooms", column: "chat_room_id"
 end

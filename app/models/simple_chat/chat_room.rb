@@ -1,7 +1,7 @@
 module SimpleChat
   class ChatRoom < ApplicationRecord
-    has_many :messages
-    has_many :chat_members
+    has_many :messages, dependent: :destroy
+    has_many :chat_members, dependent: :destroy
     validates :title, uniqueness: true
 
     private

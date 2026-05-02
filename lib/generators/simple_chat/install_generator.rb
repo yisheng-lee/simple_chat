@@ -3,7 +3,15 @@
 module SimpleChat
   class InstallGenerator < Rails::Generators::Base
     def create_initializer
-      create_file "config/initializers/simple_chat.rb", "# Initialize SimpleChat\nSimpleChat.configure do |config|\nconfig.chat_user_model = 'User'\nend"
+      initializer "simple_chat.rb" do
+        <<~RUBY
+          # Initialize SimpleChat
+          SimpleChat.configure do |config|
+            # Set the user model that will be used for chat members and messages
+            config.chat_user_model = 'User'
+          end
+        RUBY
+      end
     end
   end
 end

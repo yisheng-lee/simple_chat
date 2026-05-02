@@ -2,6 +2,8 @@
 
 one:
   chat_room: one
+  user: one (User)
 
 two:
   chat_room: two
+  user: one (User)
