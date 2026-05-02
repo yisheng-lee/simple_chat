@@ -9,7 +9,7 @@ module SimpleChat
 
     # GET /chat_rooms/1
     def show
-      @messages = @chat_room.messages
+      @messages = @chat_room.messages.select(&:persisted?)
       @message = @chat_room.messages.build
     end
 
