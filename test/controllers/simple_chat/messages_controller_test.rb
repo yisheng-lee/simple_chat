@@ -30,6 +30,15 @@ module SimpleChat
       assert_equal User.first.id, Message.last.user_id
     end
 
+    test "should create message via turbo stream" do
+      assert_difference("Message.count") do
+        post messages_url, params: { message: { content: @message.content, chat_room_id: @chat_room.id } }, as: :turbo_stream
+      end
+
+      assert_response :success
+      assert_match /turbo-stream action="replace" target="new-message"/, response.body
+    end
+
     test "should show message" do
       get message_url(@message)
       assert_response :success

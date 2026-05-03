@@ -2,14 +2,12 @@
 
 <h1>Messages<%= " for #{@chat_room.title}" if @chat_room %></h1>
 
-<div id="messages">
-  <% @messages.each do |message| %>
-    <%= render message %>
-    <p>
-      <%= link_to "Show this message", message %>
-    </p>
-  <% end %>
-</div>
+<% @messages.each do |message| %>
+  <%= render message %>
+  <p>
+    <%= link_to "Show this message", message %>
+  </p>
+<% end %>
 
 <%= link_to "New message", new_message_path(chat_room_id: @chat_room&.id) %>
 | <%= link_to "Back to chat room", @chat_room if @chat_room %>

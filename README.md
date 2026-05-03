@@ -112,6 +112,53 @@ chat_room = SimpleChat.create_chat([user1, user2])
 chat_room = SimpleChat.create_chat(user1, user2, title: "Support Chat")
 ```
 
+### 7. Real-Time Messaging Setup
+
+To enable real-time messaging, `SimpleChat` uses **Turbo Streams** and **ActionCable** with **Solid Cable** as the backend adapter.
+
+#### ActionCable & Solid Cable Configuration
+In your host application, configure `config/cable.yml` to use the `solid_cable` adapter for the environments where you want real-time features enabled:
+
+```yaml
+development:
+  adapter: solid_cable
+
+production:
+  adapter: solid_cable
+```
+
+Ensure you have run the migrations to create the `solid_cable_messages` table:
+
+```bash
+rails db:migrate
+```
+
+#### Frontend Setup (Importmaps)
+The real-time updates require **Turbo** and **ActionCable** to be active in the browser. If you are using Importmaps, ensure the following are pinned in `config/importmap.rb`:
+
+```ruby
+pin "@hotwired/turbo-rails", to: "turbo.min.js"
+pin "@rails/actioncable", to: "actioncable.esm.js"
+```
+
+And imported in your `app/javascript/application.js`:
+
+```javascript
+import "@hotwired/turbo-rails"
+import "@rails/actioncable"
+```
+
+Your main layout (`app/views/layouts/application.html.erb`) must also include the necessary tags in the `<head>`:
+
+```erb
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+<%= javascript_importmap_tags %>
+```
+
+#### Background Job Processing
+The gem uses `broadcast_append_later_to` to prevent UI lag. This enqueues an `ActiveJob` to handle the broadcast. Ensure you have a queue adapter configured (like `async` for development or `solid_queue` for production) and that a worker process is running to handle these jobs.
+
 ## Contributing
 
 Contribution directions go here.

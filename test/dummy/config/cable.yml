@@ -1,5 +1,5 @@
 development:
-  adapter: async
+  adapter: solid_cable
 
 test:
   adapter: test

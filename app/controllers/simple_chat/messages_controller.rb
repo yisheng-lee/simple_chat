@@ -38,7 +38,10 @@ module SimpleChat
       end
 
       if @message.save
-        redirect_to @chat_room || @message, notice: "Message was successfully created."
+        respond_to do |format|
+          format.html { redirect_to @chat_room || @message, notice: "Message was successfully created." }
+          format.turbo_stream
+        end
       else
         render :new, status: :unprocessable_content
       end

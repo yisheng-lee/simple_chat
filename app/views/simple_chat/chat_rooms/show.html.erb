@@ -1,7 +1,9 @@
 <%= render @chat_room %>
 
-<div id="messages">
-  <h3>Messages</h3>
+<%= turbo_stream_from "simple_chat", @chat_room %>
+
+<h3>Messages</h3>
+<div id="messages_list">
   <%= render @messages %>
 </div>
 
