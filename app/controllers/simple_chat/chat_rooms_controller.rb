@@ -1,10 +1,15 @@
 module SimpleChat
   class ChatRoomsController < ApplicationController
     before_action :set_chat_room, only: %i[ show edit update destroy ]
+    before_action :ensure_member, only: %i[ show edit update destroy ]
 
     # GET /chat_rooms
     def index
-      @chat_rooms = ChatRoom.all
+      if simple_chat_current_user
+        @chat_rooms = ChatRoom.for_user(simple_chat_current_user)
+      else
+        @chat_rooms = ChatRoom.none
+      end
     end
 
     # GET /chat_rooms/1
@@ -27,7 +32,8 @@ module SimpleChat
       @chat_room = ChatRoom.new(chat_room_params)
 
       if @chat_room.save
-        redirect_to @chat_room, notice: "Chat room was successfully created."
+        @chat_room.chat_members.create(user: simple_chat_current_user) if simple_chat_current_user
+        redirect_to @chat_room, notice: "Chat room was successfully created and you have been added as a member."
       else
         render :new, status: :unprocessable_content
       end
@@ -57,6 +63,12 @@ module SimpleChat
       # Only allow a list of trusted parameters through.
       def chat_room_params
         params.expect(chat_room: [ :title ])
+      end
+
+      def ensure_member
+        unless @chat_room.is_member?(simple_chat_current_user)
+          redirect_to chat_rooms_path, alert: "You are not a member of this chat room."
+        end
       end
   end
 end

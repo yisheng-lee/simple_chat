@@ -32,6 +32,11 @@ module SimpleChat
       @message.user = simple_chat_current_user
       @chat_room = @message.chat_room
 
+      if @chat_room && !@chat_room.is_member?(simple_chat_current_user)
+        redirect_to @chat_room, alert: "You must be a member of this chat room to post messages."
+        return
+      end
+
       if @message.save
         redirect_to @chat_room || @message, notice: "Message was successfully created."
       else

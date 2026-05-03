@@ -7,6 +7,8 @@ module SimpleChat
     setup do
       @chat_room = simple_chat_chat_rooms(:one)
       @message = simple_chat_messages(:one)
+      # Ensure user is a member for message creation tests
+      @chat_room.chat_members.find_or_create_by!(user_id: User.first.id)
     end
 
     test "should get index" do
@@ -49,6 +51,15 @@ module SimpleChat
       end
 
       assert_redirected_to messages_url(chat_room_id: @chat_room.id)
+    end
+    test "should not create message if not a member" do
+      @chat_room.chat_members.where(user_id: User.first.id).destroy_all
+      assert_no_difference("Message.count") do
+        post messages_url, params: { message: { content: @message.content, chat_room_id: @chat_room.id } }
+      end
+
+      assert_redirected_to chat_room_url(@chat_room)
+      assert_equal "You must be a member of this chat room to post messages.", flash[:alert]
     end
   end
 end

@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render @chat_room %>
 
 <div id="messages">
@@ -13,6 +11,7 @@
   <h3>New Message</h3>
   <%= render "simple_chat/messages/form", message: @message %>
 </div>
+<p><%= button_to "Leave Chat Room", chat_room_chat_member_path(@chat_room, "current"), method: :delete, data: { confirm: "Are you sure?" } %></p>
 
 <hr>
 
