@@ -159,6 +159,16 @@ Your main layout (`app/views/layouts/application.html.erb`) must also include th
 #### Background Job Processing
 The gem uses `broadcast_append_later_to` to prevent UI lag. This enqueues an `ActiveJob` to handle the broadcast. Ensure you have a queue adapter configured (like `async` for development or `solid_queue` for production) and that a worker process is running to handle these jobs.
 
+### 8. CSS & Styling
+
+SimpleChat comes with its own pre-compiled Tailwind CSS. This means **you do not need to install or configure Tailwind CSS in your host application** to use SimpleChat.
+
+The engine's layout automatically includes the necessary styles. If you are not using the engine's layout and want to include the styles in your own views, you can add:
+
+```erb
+<%= stylesheet_link_tag "simple_chat/application" %>
+```
+
 ## Contributing
 
 Contribution directions go here.

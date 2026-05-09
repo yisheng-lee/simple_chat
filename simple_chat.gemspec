@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", ">= 8.1.3"
   spec.add_dependency "turbo-rails"
   spec.add_dependency "solid_cable"
+  spec.add_dependency "tailwindcss-rails"
 end
