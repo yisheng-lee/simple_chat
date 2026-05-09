@@ -17,6 +17,51 @@
         <%= render @messages %>
       </ul>
     </div>
+    <script>
+      (function() {
+        const scrollToBottom = () => {
+          const container = document.getElementById('messages_list_container');
+          if (container) {
+            // Smooth scroll to bottom
+            container.scrollTo({
+              top: container.scrollHeight,
+              behavior: 'smooth'
+            });
+          }
+        };
+
+        const setupScroll = () => {
+          const container = document.getElementById('messages_list_container');
+          const list = document.getElementById('messages_list');
+          
+          if (container && list) {
+            // Initial scroll
+            container.scrollTop = container.scrollHeight;
+
+            // Scroll when new messages are added via MutationObserver
+            const observer = new MutationObserver((mutations) => {
+              scrollToBottom();
+            });
+            observer.observe(list, { childList: true });
+            
+            // Cleanup previous observer if any (though this script runs once per page load)
+            window._chatScrollObserver?.disconnect();
+            window._chatScrollObserver = observer;
+          }
+        };
+
+        // Run on initial load
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', setupScroll);
+        } else {
+          setupScroll();
+        }
+
+        // Also handle Turbo navigation
+        document.addEventListener("turbo:load", setupScroll);
+        document.addEventListener("turbo:render", setupScroll);
+      })();
+    </script>
 
     <div id="new-message" class="border-t border-gray-200 p-4 bg-gray-50">
       <div class="flex gap-x-3">
