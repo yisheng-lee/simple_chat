@@ -11,13 +11,20 @@
 
   <%= turbo_stream_from "simple_chat", @chat_room %>
 
-  <div class="bg-white shadow sm:rounded-lg overflow-hidden flex flex-col h-[600px]">
-    <div id="messages_list" class="flex-grow overflow-y-auto p-6 bg-gray-50">
-      <%= render @messages %>
+  <div class="bg-white shadow sm:rounded-lg overflow-hidden flex flex-col h-[600px] border border-gray-200">
+    <div id="messages_list_container" class="flex-grow overflow-y-auto p-6 bg-gray-50">
+      <ul id="messages_list" role="list" class="space-y-6">
+        <%= render @messages %>
+      </ul>
     </div>
 
-    <div id="new-message" class="border-t border-gray-200 p-4 bg-white">
-      <%= render "simple_chat/messages/form", message: @message %>
+    <div id="new-message" class="border-t border-gray-200 p-4 bg-gray-50">
+      <div class="flex gap-x-3">
+        <div class="size-6 flex-none rounded-full bg-gray-200 flex items-center justify-center ring-1 ring-gray-300">
+          <span class="text-[10px] font-bold text-gray-500">?</span>
+        </div>
+        <%= render "simple_chat/messages/form", message: @message %>
+      </div>
     </div>
   </div>
 

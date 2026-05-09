@@ -1,8 +1,6 @@
-<%= form_with(model: message, class: "flex gap-2") do |form| %>
+<%= form_with(model: message, class: "relative flex-auto") do |form| %>
   <% if message.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3 w-full">
-      <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
-
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mb-4 w-full text-xs">
       <ul>
         <% message.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,19 +9,20 @@
     </div>
   <% end %>
 
-  <% if message.chat_room_id.nil? %>
-    <div class="flex-grow">
-      <%= form.collection_select :chat_room_id, SimpleChat::ChatRoom.all, :id, :title, { prompt: "Select Chat Room" }, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
-    </div>
-  <% else %>
+  <% if message.chat_room_id.present? %>
     <%= form.hidden_field :chat_room_id %>
+  <% else %>
+    <div class="mb-2">
+      <%= form.collection_select :chat_room_id, SimpleChat::ChatRoom.all, :id, :title, { prompt: "Select Chat Room" }, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
   <% end %>
 
-  <div class="flex-grow">
-    <%= form.text_area :content, rows: 1, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Type a message..." %>
+  <div class="overflow-hidden rounded-lg pb-12 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 bg-white">
+    <label for="message_content" class="sr-only">Add your message</label>
+    <%= form.text_area :content, id: "message_content", rows: 2, placeholder: "Add your message...", class: "block w-full resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" %>
   </div>
 
-  <div>
-    <%= form.submit "Send", class: "inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+  <div class="absolute inset-x-0 bottom-0 flex justify-end py-2 pr-2 pl-3">
+    <%= form.submit "Send Message", class: "rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer" %>
   </div>
 <% end %>

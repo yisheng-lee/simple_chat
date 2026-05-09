@@ -1,5 +1,10 @@
 <%= turbo_stream.replace "new-message" do %>
-  <div id="new-message" class="border-t border-gray-200 p-4 bg-white">
-    <%= render "simple_chat/messages/form", message: @chat_room.messages.build %>
+  <div id="new-message" class="border-t border-gray-200 p-4 bg-gray-50">
+    <div class="flex gap-x-3">
+      <div class="size-6 flex-none rounded-full bg-gray-200 flex items-center justify-center ring-1 ring-gray-300">
+        <span class="text-[10px] font-bold text-gray-500">?</span>
+      </div>
+      <%= render "simple_chat/messages/form", message: @chat_room.messages.build %>
+    </div>
   </div>
 <% end %>
