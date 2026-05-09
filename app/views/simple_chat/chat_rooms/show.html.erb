@@ -1,25 +1,28 @@
-<%= render @chat_room %>
+<div class="mx-auto max-w-4xl px-4 py-8">
+  <div class="flex justify-between items-center mb-6 border-b pb-4">
+    <h1 class="text-2xl font-bold text-gray-900">
+      <%= @chat_room.title %>
+    </h1>
+    <div class="flex gap-2">
+      <%= link_to "Edit", edit_chat_room_path(@chat_room), class: "text-sm text-blue-600 hover:text-blue-800" %>
+      <%= link_to "Back", chat_rooms_path, class: "text-sm text-gray-600 hover:text-gray-800" %>
+    </div>
+  </div>
 
-<%= turbo_stream_from "simple_chat", @chat_room %>
+  <%= turbo_stream_from "simple_chat", @chat_room %>
 
-<h3>Messages</h3>
-<div id="messages_list">
-  <%= render @messages %>
-</div>
+  <div class="bg-white shadow sm:rounded-lg overflow-hidden flex flex-col h-[600px]">
+    <div id="messages_list" class="flex-grow overflow-y-auto p-6 bg-gray-50">
+      <%= render @messages %>
+    </div>
 
-<hr>
+    <div class="border-t border-gray-200 p-4 bg-white">
+      <%= render "simple_chat/messages/form", message: @message %>
+    </div>
+  </div>
 
-<div id="new-message">
-  <h3>New Message</h3>
-  <%= render "simple_chat/messages/form", message: @message %>
-</div>
-<p><%= button_to "Leave Chat Room", chat_room_chat_member_path(@chat_room, "current"), method: :delete, data: { confirm: "Are you sure?" } %></p>
-
-<hr>
-
-<div>
-  <%= link_to "Edit this chat room", edit_chat_room_path(@chat_room) %> |
-  <%= link_to "Back to chat rooms", chat_rooms_path %>
-
-  <%= button_to "Destroy this chat room", @chat_room, method: :delete %>
+  <div class="mt-6 flex justify-between items-center">
+    <%= button_to "Leave Chat Room", chat_room_chat_member_path(@chat_room, "current"), method: :delete, data: { confirm: "Are you sure?" }, class: "text-sm text-red-600 hover:text-red-800 font-medium" %>
+    <%= button_to "Destroy Room", @chat_room, method: :delete, data: { confirm: "Permanent delete. Are you sure?" }, class: "text-xs text-gray-400 hover:text-red-400" %>
+  </div>
 </div>

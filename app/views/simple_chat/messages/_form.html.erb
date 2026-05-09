@@ -1,6 +1,6 @@
-<%= form_with(model: message) do |form| %>
+<%= form_with(model: message, class: "flex gap-2") do |form| %>
   <% if message.errors.any? %>
-    <div style="color: red">
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3 w-full">
       <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
 
       <ul>
@@ -12,20 +12,18 @@
   <% end %>
 
   <% if message.chat_room_id.nil? %>
-    <div>
-      <%= form.label :chat_room_id, style: "display: block" %>
-      <%= form.collection_select :chat_room_id, SimpleChat::ChatRoom.all, :id, :title, prompt: true %>
+    <div class="flex-grow">
+      <%= form.collection_select :chat_room_id, SimpleChat::ChatRoom.all, :id, :title, { prompt: "Select Chat Room" }, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
     </div>
   <% else %>
     <%= form.hidden_field :chat_room_id %>
   <% end %>
 
-  <div>
-    <%= form.label :content, style: "display: block" %>
-    <%= form.textarea :content %>
+  <div class="flex-grow">
+    <%= form.text_area :content, rows: 1, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm", placeholder: "Type a message..." %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit "Send", class: "inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
   </div>
 <% end %>
