@@ -1,6 +1,5 @@
 <%= turbo_stream.replace "new-message" do %>
-  <div id="new-message">
-    <h3>New Message</h3>
+  <div id="new-message" class="border-t border-gray-200 p-4 bg-white">
     <%= render "simple_chat/messages/form", message: @chat_room.messages.build %>
   </div>
 <% end %>
