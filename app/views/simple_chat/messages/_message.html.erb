@@ -1,8 +1,6 @@
 <%# Using local variable message instead of calling helper to avoid issues in background jobs %>
-<% current_user_id = local_assigns[:current_user_id] || (respond_to?(:simple_chat_current_user) ? simple_chat_current_user&.id : nil) %>
-<li id="<%= dom_id message %>" 
-    data-sender-id="<%= message.user_id %>"
-    class="relative flex gap-x-4">
+<% current_user = local_assigns[:current_user] || (respond_to?(:simple_chat_current_user) ? simple_chat_current_user : nil) %>
+<li id="<%= dom_id message %>" class="relative flex gap-x-4">
   <div class="absolute top-0 -bottom-6 left-0 flex w-6 justify-center">
     <div class="w-px bg-gray-200"></div>
   </div>
@@ -11,11 +9,13 @@
     <span class="text-[10px] font-bold text-gray-500"><%= message.user.respond_to?(:name) ? message.user.name[0].upcase : message.user_id %></span>
   </div>
 
-  <div class="flex-auto rounded-md p-3 ring-1 ring-gray-200 ring-inset bg-white [[data-sender-id='<%= current_user_id %>']&]:bg-blue-50/50 [[data-sender-id='<%= current_user_id %>']&]:ring-blue-100">
+  <div class="flex-auto rounded-md p-3 ring-1 ring-gray-200 ring-inset <%= message.user == current_user ? 'bg-blue-50/50 ring-blue-100' : 'bg-white' %>">
     <div class="flex justify-between gap-x-4">
       <div class="py-0.5 text-xs/5 text-gray-500">
         <span class="font-medium text-gray-900"><%= message.user.respond_to?(:name) ? message.user.name : "User ##{message.user_id}" %></span>
-        <span class="ml-1 text-[10px] text-blue-500 font-semibold hidden [[data-sender-id='<%= current_user_id %>']_&]:inline">(You)</span>
+        <% if message.user == current_user %>
+          <span class="ml-1 text-[10px] text-blue-500 font-semibold">(You)</span>
+        <% end %>
       </div>
       <time datetime="<%= message.created_at.iso8601 %>" class="flex-none py-0.5 text-xs/5 text-gray-400">
         <%= time_ago_in_words(message.created_at) %> ago

@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <%= turbo_stream_from "simple_chat", @chat_room %>
+  <%= turbo_stream_from "simple_chat", @chat_room, simple_chat_current_user %>
 
   <div class="bg-white shadow sm:rounded-lg overflow-hidden flex flex-col h-[600px] border border-gray-200">
     <div id="messages_list_container" class="flex-grow overflow-y-auto p-6 bg-gray-50">
